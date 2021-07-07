@@ -10,13 +10,11 @@ import { connect } from 'react-redux';
 import { Fields } from './components';
 import { setDataField, TSetDataField } from 'actions/transaction';
 import { Data } from 'libs/units';
-import { Web3Node } from 'libs/nodes';
-import RpcNode from 'libs/nodes/rpc';
-import { Input } from 'components/ui';
-import Dropdown from 'components/ui/Dropdown';
+import { Input, Dropdown } from 'components/ui';
+import { INode } from 'libs/nodes';
 
 interface StateProps {
-  nodeLib: RpcNode | Web3Node;
+  nodeLib: INode;
   to: AppState['transaction']['fields']['to'];
   dataExists: boolean;
 }
@@ -78,7 +76,7 @@ class InteractExplorerClass extends Component<Props, State> {
         className="InteractExplorer-func-submit btn btn-primary"
         onClick={this.handleFunctionSend}
       >
-        {translate('CONTRACT_Write')}
+        {translate('CONTRACT_WRITE')}
       </button>
     );
 
@@ -87,17 +85,18 @@ class InteractExplorerClass extends Component<Props, State> {
         <div className="input-group-wrapper">
           <label className="input-group">
             <div className="input-group-header">
-              {translate('CONTRACT_Interact_Title')}
+              {translate('CONTRACT_INTERACT_TITLE')}
               <div className="flex-spacer" />
               <span className="small">{to.raw}</span>
             </div>
             <Dropdown
               name="exploreContract"
               value={selectedFunction as any}
-              placeholder="Please select a function..."
+              placeholder={translate('SELECT_A_THING', { $thing: 'function' })}
               onChange={this.handleFunctionSelect}
               options={contractFunctionsOptions}
-              clearable={false}
+              clearable={true}
+              searchable={true}
               labelKey="name"
               valueKey="contract"
             />
@@ -147,7 +146,7 @@ class InteractExplorerClass extends Component<Props, State> {
                 className="InteractExplorer-func-submit btn btn-primary"
                 onClick={this.handleFunctionCall}
               >
-                {translate('CONTRACT_Read')}
+                {translate('CONTRACT_READ')}
               </button>
             ) : (
               <React.Fragment>
